@@ -12,7 +12,8 @@ export default (sequelize , DataTypes)=>{
         userId : DataTypes.INTEGER
     },{
         sequelize,
-        modelName:'Meme'
+        modelName:'Meme',
+        timestamps: true,
     });
     return Meme;
 }

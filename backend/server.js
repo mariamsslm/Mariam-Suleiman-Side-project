@@ -1,11 +1,19 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import db from './models/index.js'
+import MemeRoute from './routes/MemeRoute.js'
+import UserRoute from './routes/UserRoute.js'
+import cookieParser from 'cookie-parser'
 dotenv.config()
 
 
 const app = express()
 app.use (express.json());
+app.use (cookieParser());
+
+
+app.use('/meme', MemeRoute);
+app.use('/user',UserRoute)
 
 
 
