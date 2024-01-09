@@ -8,7 +8,7 @@ export const createMeme = async (req, res) => {
   const { imageURL, textCaption, userId } = req.body;
   try {
     if (!imageURL || !textCaption || !userId) {
-      return res.status(400).json({ error: "Missing required" });
+      return res.status(401).json({ error: "Missing required" });
     }
     const newMeme = await MemeModel.create({
       imageURL,
@@ -18,7 +18,7 @@ export const createMeme = async (req, res) => {
     res.status(200).json({ message: "Meme added successfuly", data: newMeme });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: error.message });
+    res.status(401).json({ error: error.message });
   }
 };
 
@@ -49,34 +49,40 @@ export const getMemeById = async (req, res) => {
   }
 };
 
-// function to update meme by id
+
+//update meme
 export const updateMemeById = async (req, res) => {
-  const { id, imageURL, textCaption, userId } = req.body;
+  const { id, imageURL, textCaption } = req.body;
+
   try {
-    //check if the meme exists or no
+    // Check if the meme exists
     const findData = await MemeModel.findByPk(id);
     if (!findData) {
-      return res.status(404).json({ error: " the meme not found" });
+      return res.status(404).json({ error: 'The meme not found' });
     }
+
+
+    // Update the meme properties
     const updateMeme = await MemeModel.update(
       {
         imageURL,
         textCaption,
-        userId,
       },
       {
-        where: { id: id },
+        where: { id: id,},
       }
     );
-    if (updateMeme)
-      return res.status(200).json({ message: "meme uodate successufuly",});
-    else return res.status(400).json("Error");
+
+    if (updateMeme[0] > 0) {
+      return res.status(200).json({ message: 'Meme updated successfully' });
+    } else {
+      return res.status(400).json({ error: 'Error updating meme' });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message });
   }
 };
-
 
 
 //function to delete meme

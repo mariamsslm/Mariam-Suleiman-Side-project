@@ -9,6 +9,7 @@ export const authenticate = async (req , res ,next)=>{
         }
         //check if the token valid(correct)
         const decoded = verifyToken(token);
+      
         req.user = decoded
 
 
