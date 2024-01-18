@@ -8,7 +8,7 @@ export const createMeme = async (req, res) => {
   const { imageURL, textCaption, userId } = req.body;
   try {
     if (!imageURL || !textCaption || !userId) {
-      return res.status(401).json({ error: "Missing required" });
+      return res.status(400).json({ error: "Missing required" });
     }
     const newMeme = await MemeModel.create({
       imageURL,
@@ -18,7 +18,7 @@ export const createMeme = async (req, res) => {
     res.status(200).json({ message: "Meme added successfuly", data: newMeme });
   } catch (error) {
     console.error(error);
-    res.status(401).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 

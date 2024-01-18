@@ -6,7 +6,7 @@ const UserRoute = express.Router();
 
 
 
-UserRoute.post('/singup',singup,authenticate)
+UserRoute.post('/signup',singup,authenticate)
 UserRoute.post('/login',login)
 UserRoute.get('/login-user',authenticate,loggedInUser);
 UserRoute.post('/logout',logout)
