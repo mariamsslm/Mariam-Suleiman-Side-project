@@ -9,9 +9,9 @@ import ProtectedRoute from './protectedRoute.js'
 import NotFound from '../pages/NotFound.js'
 import SignupPage from '../pages/Signup.js'
 import NotAuthorizate from '../pages/NotAuthorizete.js'
-import MemeDashboard from '../pages/das.js'
 import CreateMeme  from '../pages/dashboard/CreateMeme.js'
 import UpdateMeme from '../pages/dashboard/UpdateMeme.js'
+import MemeDashboard from '../pages/Dashboard.js'
 
 export default function AppRoutes() {
   return (
@@ -22,8 +22,8 @@ export default function AppRoutes() {
         <Route path="/meme/:id" element={
         <LayoutWithHeaderFooter><Meme/></LayoutWithHeaderFooter>} />
 
-         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-                <Route path="/dashboard" element={'Dashboard'} />
+         <Route element={<ProtectedRoute allowedRoles={['creator']} />}>
+                <Route path="/dashboard" element={<MemeDashboard/>} />
             </Route>
             <Route path='/CreateMeme' element={<CreateMeme/>}></Route>
             <Route path='/UpdateMeme' element={<UpdateMeme/>}></Route>
@@ -38,6 +38,8 @@ export default function AppRoutes() {
        <Route path='/signup' element={
           <LayoutWithoutHeaderFooter><SignupPage/></LayoutWithoutHeaderFooter>
        }/>
+       <Route path="/meme/edit/:id" element={<UpdateMeme/>} />
+
 
         <Route path='/Unathorizate' element={<LayoutWithoutHeaderFooter><NotAuthorizate/></LayoutWithoutHeaderFooter>}></Route>
         <Route path='/*' element={<LayoutWithoutHeaderFooter><NotFound/></LayoutWithoutHeaderFooter>}/>

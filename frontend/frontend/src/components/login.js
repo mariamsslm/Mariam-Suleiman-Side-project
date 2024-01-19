@@ -85,15 +85,15 @@ import React, { useState, useContext, useEffect } from 'react';
 import useApi from '../hooks/useApi';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import {  Link , useNavigate} from 'react-router-dom';
 import { Button, Stack, TextField, Typography, Box } from '@mui/material';
 
 const LoginForm = () => {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
   const{user ,checkUser} = useContext(AuthContext)
   const {fetchUserData} = useContext(AuthContext)
   const { apiCall } = useApi();
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -114,6 +114,7 @@ const LoginForm = () => {
     if (!formData.email || !formData.password) {
       toast.error("Insert Email or Password");
       setLoading(false);
+      
       return;
     }
 
@@ -135,7 +136,8 @@ const LoginForm = () => {
       await fetchUserData();
       toast.success("Logged in Successfully!");
       setLoading(false);
-      navigate("/dashboard"); // You can navigate to any route you prefer after login
+      navigate("/d");
+      
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         const { errors } = error.response.data;

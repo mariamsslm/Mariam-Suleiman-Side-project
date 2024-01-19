@@ -90,7 +90,7 @@ const CreateMeme = () => {
           />
           <Button
             style={{ marginTop: '16px' }}
-            fullWidth
+            
             variant="contained"
             color="primary"
             type="submit"

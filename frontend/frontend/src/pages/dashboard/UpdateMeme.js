@@ -10,7 +10,6 @@ import {
   Paper,
   Button,
 } from '@mui/material';
-// import Context from '../../contexts/Context.js';
 
 const  UpdateMeme = () => {
   const toastNotification = (isSuccess) => {
@@ -31,12 +30,10 @@ const  UpdateMeme = () => {
 
   const { id } = useParams();
   const [formData, setFormData] = useState({
-    image: '',
-    title: '',
-    category: '',
-    body: '',
-    author: '',
-    userId: '',
+    id:id,
+    imageURL: '',
+    textCaption: '',
+  
   });
 
   useEffect(() => {
@@ -45,14 +42,16 @@ const  UpdateMeme = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_ENDPOINT}/meme/read/${id}`
         );
-        setFormData(response.data.data);
+        setFormData((prevData) => ({
+          ...prevData,
+          ...response.data.data,
+        }));
       } catch (error) {
         console.log(error.message);
       }
     };
     if (id) fetchMeme();
   }, [id]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -65,10 +64,16 @@ const  UpdateMeme = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND_ENDPOINT}/meme/update/${id}`,
+        `${process.env.REACT_APP_BACKEND_ENDPOINT}/meme/edit`,
         formData
       );
       toastNotification(true);
+
+      setFormData({
+        id:id,
+        imageURL:'',
+        textCaption:''
+      })
     } catch (error) {
       console.log(error.message);
       toastNotification(false);
@@ -76,18 +81,17 @@ const  UpdateMeme = () => {
   };
 
   return (
-    // <Context.Provider value={id}>
-      <Container>
-        <Paper>
-        <Typography variant="h4" >
+      <Container style={{ textAlign: 'center', padding: '16px' }}>
+        <Paper elevation={3} style={{ padding: '16px' }}>
+        <Typography variant="h4" style={{ marginBottom: '16px' }}>
           Update An Meme
         </Typography>
-        <form  onSubmit={handleUpdate}>
+        <form  onSubmit={handleUpdate} style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
           <TextField
             fullWidth
-            label="Image URL"
+            label="imageURL"
             variant="outlined"
-            name="image"
+            name="imageURL"
             value={formData.imageURL}
             onChange={handleInputChange}
          
@@ -101,7 +105,7 @@ const  UpdateMeme = () => {
             onChange={handleInputChange}
             
           />
-          <TextField
+          {/* <TextField
             fullWidth
             label="userId"
             variant="outlined"
@@ -109,10 +113,11 @@ const  UpdateMeme = () => {
             value={formData.userId}
             onChange={handleInputChange}
             
-          />
+          /> */}
          
         
           <Button
+          style={{marginTop:'16px'}}
             variant="contained"
             color="primary"
             type="submit"
@@ -123,7 +128,6 @@ const  UpdateMeme = () => {
         </form>
         </Paper>
       </Container>
-    // </Context.Provider>
   );
 };
 

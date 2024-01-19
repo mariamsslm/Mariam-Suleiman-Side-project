@@ -12,7 +12,7 @@ import {
   } from "@mui/material";
   import useApi from "../hooks/useApi";
   import { useState } from "react";
-  import { Link } from "react-router-dom";
+  import { Link , useNavigate } from "react-router-dom";
   import { toast } from "react-toastify";
   import axiosInstance from "../utils/axiosInstance";
 
@@ -31,6 +31,7 @@ import {
   const Signup = () => {
     const [loading, setLoading] = useState(false);
     const { apiCall } = useApi();
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
       username: "",
       email: "",
@@ -50,7 +51,8 @@ import {
       try {
         const response = await axiosInstance.post("/user/signup", formData);
         console.log(response)
-        toast.success(response.message);
+        toast.success("Sign Up Successfuly",response.message);
+        navigate("/")
       } catch (error) {
         if (error.response && error.response.data && error.response.data.errors) {
           const { errors } = error.response.data;
@@ -162,8 +164,6 @@ import {
                       required
                     >
                       <MenuItem value={"creator"}>Creator</MenuItem>
-                      <MenuItem value={"admin"}>Admin</MenuItem>
-                      <MenuItem value={"user"}>User</MenuItem>
                     </Select>
                   </FormControl>
                   <TextField

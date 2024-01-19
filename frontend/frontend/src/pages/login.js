@@ -1,4 +1,3 @@
-// import { Layout } from "../layouts/auth";
 import LoginForm from "../components/login";
 
 const LoginPage = () => {
